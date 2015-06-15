@@ -12,8 +12,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
+import jenkins.scm.api.SCMHead;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A specification of branches to build. Rather like a refspec.
@@ -50,6 +52,11 @@ public class BranchSpec extends AbstractDescribableImpl<BranchSpec> implements S
     public BranchSpec(String name) {
         setName(name);
     }
+    
+    public BranchSpec(@NonNull String remoteName, @NonNull SCMHead head) {
+		this(remoteName+"/"+head.getName());
+	}
+
 
     public String toString() {
         return name;

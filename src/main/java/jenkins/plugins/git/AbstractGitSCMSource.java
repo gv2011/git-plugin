@@ -279,7 +279,7 @@ public abstract class AbstractGitSCMSource extends SCMSource {
                 (SCMRevisionImpl) revision) : new DefaultBuildChooser();
         return new GitSCM(
                 getRemoteConfigs(),
-                Collections.singletonList(new BranchSpec(head.getName())),
+                Collections.singletonList(new BranchSpec(getRemoteName(), head)),
                 false, Collections.<SubmoduleConfig>emptyList(),
                 null, null, Collections.<GitSCMExtension>singletonList(new BuildChooserSetting(buildChooser)));
     }
