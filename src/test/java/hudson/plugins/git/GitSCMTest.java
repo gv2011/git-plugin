@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.jenkinsci.plugins.gitclient.*;
+import org.jenkinsci.remoting.RoleChecker;
 import org.jvnet.hudson.test.TestExtension;
 
 import java.io.File;
@@ -55,6 +56,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
+
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.jvnet.hudson.test.Issue;
 
@@ -779,6 +781,10 @@ public class GitSCMTest extends AbstractGitTestCase {
                 throw new IOException2(e);
             }
         }
+
+		public void checkRoles(RoleChecker arg0)
+				throws SecurityException {
+		}
     }
 
     // eg: "jane doe and john doe should be the culprits", culprits, [johnDoe, janeDoe])
