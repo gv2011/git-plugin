@@ -52,6 +52,7 @@ import org.jenkinsci.plugins.gitclient.FetchCommand;
 import org.jenkinsci.plugins.gitclient.Git;
 import org.jenkinsci.plugins.gitclient.GitClient;
 import org.jenkinsci.plugins.gitclient.JGitTool;
+import org.jfree.util.Log;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
@@ -77,9 +78,11 @@ import hudson.plugins.git.browser.GithubWeb;
 import static hudson.scm.PollingResult.*;
 import hudson.util.IOUtils;
 import hudson.util.LogTaskListener;
+
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
@@ -558,7 +561,15 @@ public class GitSCM extends GitSCMBackwardCompatibility {
 
         final BuildData buildData = fixNull(getBuildData(lastBuild));
         if (buildData.lastBuild != null) {
-            listener.getLogger().println("[poll] Last Built Revision: " + buildData.lastBuild.revision);
+            Revision revision = buildData.lastBuild.revision;
+            String revisionString;
+			try {
+				revisionString = revision.toString();
+			} catch (NullPointerException npe) {
+				revisionString = "unknown(NPE)";
+				Log.warn("Revision.toString() failed.", npe);
+			}
+			listener.getLogger().println("[poll] Last Built Revision: " + revisionString);
         }
 
         final String singleBranch = getSingleBranch(lastBuild.getEnvironment(listener));
